@@ -1,0 +1,8 @@
+flask
+flask-cors
+Flask-JWT
+flask-restful
+Flask-SQLAlchemy
+PyMySQL
+mysqlclient
+python-dotenv
