@@ -4,6 +4,7 @@ class Movie(db.Model):
     __tablename__ = 'movie'
 
     id = db.Column(db.Integer, primary_key=True)
+    movie_name = db.Column(db.String(50), nullable=False, unique=True)
     title = db.Column(db.String(50), nullable=False)
     cover_image = db.Column(db.String(255))
     genres = db.relationship('MovieGenre', back_populates='movie')
@@ -12,6 +13,10 @@ class Movie(db.Model):
     price = db.Column(db.Float, nullable=False)
     stock = db.Column(db.Integer, nullable=False)
     reviews = db.relationship('Review', back_populates='movie')
+
+    def add_genre(self, genre):
+        genre = MovieGenre(genre=genre, movie=self)
+        db.session.add(genre)
 
     def __repr__(self):
         return '<Movie %r>' % self.title
