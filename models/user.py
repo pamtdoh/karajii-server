@@ -17,7 +17,3 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
-
-    @staticmethod
-    def username_exists(username):
-        return User.query.filter_by(username=username).first() is not None
