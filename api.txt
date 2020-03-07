@@ -1,0 +1,183 @@
++ Get user details
+GET
+/user/<username>
+{
+  username:
+  email:
+  address:
+}
+
+
++ Create or update user
+POST, PUT
+/user/<username>
+{
+  username:
+  password:
+  email:
+  address:
+}
+
+
++ admin / Delete user
+DELETE
+/user/<username>
+
+
++ View history
+GET(count)
+/user/<username>/history
+{
+  history: [
+    {
+      rent_item_id:
+      start_date:
+      end_date:
+      status:
+      movie_name:
+    }
+  ]
+}
+
+
++ Get past orders
+GET
+/user/<username>/orders
+{
+  orders: [
+    {
+      order_id:
+      order_timestamp:
+      total_price:
+      items: [<movie_name>]
+    }
+  ]
+}
+
+
++ Make an order
+POST
+/user/<username>/order
+{
+  order_details: [
+    {
+      movie_name:
+      length_days:
+    }
+  ],
+  payment_info:
+  delivery_address:
+}
+
+
++ Get movie list
+GET(count, genre)
+/movies
+{
+  movie_names: [<movie_name>]
+}
+
+
++ Get movie details
+GET
+/movie/<movie_name>
+{
+  movie_name:
+  title:
+  cover_image:
+  genre: []
+  summary:
+  duration:
+  price:
+  stock_left:
+}
+
+
++ admin / Add movie
+POST, PUT
+/movie/<movie_name>
+{
+  movie_name:
+  title:
+  cover_image:
+  genre: []
+  summary:
+  duration:
+  release_date:
+  price:
+  stock_left:
+}
+
+
++ admin / Delete movie
+DELETE
+/movie/<movie_name>
+
+
++ Get movie reviews
+GET(count)
+/movie/<movie_name>/reviews
+{
+  reviews: [
+    {
+      username:
+      rating:
+      content:
+    },
+    {
+      username:
+      rating:
+      content:
+    }
+  ]
+}
+
+
++ Add review
+POST
+{
+  {
+    movie_name:
+    rating:
+    content:
+  }
+}
+
+
++ admin / Get orders
+GET(username)
+/orders
+{
+  orders: [<order>]
+}
+
+
++ admin / Get order items
+GET(order_id)
+/rent_items
+{
+  rent_items: [<rent_item>]
+}
+
+
++ admin / Change order details
+PUT
+/order/<order_id>
+
+
++ admin / Change item details
+/rent_item/<rent_item_id>
+PUT
+{
+  start_date:
+  end_date:
+  status:
+  movie_name:
+}
+
++ admin / Get all users
+GET(count)
+/users
+{
+  users: [<username>]
+}
