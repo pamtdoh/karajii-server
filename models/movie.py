@@ -13,6 +13,7 @@ class Movie(db.Model):
     price = db.Column(db.Float, nullable=False)
     stock = db.Column(db.Integer, nullable=False)
     reviews = db.relationship('Review', back_populates='movie')
+    year = db.Column(db.Integer)
 
     def add_genre(self, genre):
         genre = MovieGenre(genre=genre, movie=self)

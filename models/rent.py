@@ -1,6 +1,7 @@
 from app import db
 from datetime import datetime
 
+
 class RentItem(db.Model):
     __tablename__ = 'rent_item'
 

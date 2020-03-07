@@ -1,6 +1,8 @@
 from app import db
-from models import User, Movie, Review
-import json
+from models.user import User
+from models.movie import Movie
+from models.review import Review
+from flask import jsonify
 
 
 def add_review(username, movie_name, rating, content):
@@ -21,9 +23,9 @@ def get_movie_reviews(movie_name, count):
     
     reviews = Review.query.\
               filter_by(movie=movie).\
-              sort_by(Review.timestamp.desc()).\
+              order_by(Review.timestamp.desc()).\
               limit(count).all()
-    return json.dumps({
+    return jsonify({
         'reviews': [{
             'username': review.user.username,
             'rating': review.rating,

@@ -1,6 +1,8 @@
 from app import db
-from models import User, Movie, RentOrder, RentItem
-import json
+from models.user import User
+from models.rent import RentOrder, RentItem
+from models.movie import Movie
+from flask import jsonify
 from datetime import datetime
 
 def get_user_orders(username):
@@ -9,7 +11,7 @@ def get_user_orders(username):
         return
     
     rent_orders = RentOrder.query.filter_by(user=user).all()    
-    return json.dumps({
+    return jsonify({
         'orders': [{
             'order_id': rent_order.id,
             'order_timestamp': rent_order.timestamp.isoformat(),
@@ -33,7 +35,7 @@ def get_user_history(username, count):
                 filter(RentItem.rent_order_id.in_(rent_order_ids)).\
                 order_by(RentItem.start_date.desc()).\
                 limit(count).all()
-    return json.dumps({
+    return jsonify({
         'history': [{
             'rent_item_id': rent_item.id,
             'start_date': rent_item.start_date.isoformat(),
@@ -67,3 +69,4 @@ def create_order(username, order_details, payment_info, delivery_address):
     order.calc_price()
     db.session.add(order)
     db.session.commit()
+    return True

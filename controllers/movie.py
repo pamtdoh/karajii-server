@@ -1,6 +1,6 @@
 from app import db
-from models import Movie, MovieGenre
-import json
+from models.movie import Movie, MovieGenre
+from flask import jsonify
 
 
 def add_movie(payload):
@@ -12,6 +12,7 @@ def add_movie(payload):
     
     db.session.add(movie)
     db.session.commit()
+    return True
 
 
 def delete_movie(movie_name):
@@ -27,23 +28,25 @@ def get_movie_list(count=20, genre=None):
         res = MovieGenre.query.filter_by(genre=genre).limit(count).all()
         res = [genre.movie for genre in res]
     
-    if res:
-        return json.dumps({
-            'movies': [movie.movie_name for movie in res]
-        })
+    return jsonify({
+        'movies': [movie.movie_name for movie in res]
+    })
 
 
 def get_movie_details(movie_name):
     res = Movie.query.filter_by(movie_name=movie_name).first()
-    if res:
-        return json.dumps({
-            'movie_name': res.movie_name,
-            'title': res.title,
-            'cover_image': res.cover_image,
-            'genre': [genre.genre for genre in res.genres],
-            'summary': res.summary,
-            'duration': res.duration,
-            'price': res.price,
-            'stock': res.stock
-        })
+    if res is None:
+        return
+    
+    return jsonify({
+        'movie_name': res.movie_name,
+        'title': res.title,
+        'cover_image': res.cover_image,
+        'genre': [genre.genre for genre in res.genres],
+        'summary': res.summary,
+        'duration': res.duration,
+        'price': res.price,
+        'stock': res.stock,
+        'year': res.year
+    })
 
