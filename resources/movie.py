@@ -1,12 +1,15 @@
 from flask_restful import Resource, reqparse
 from flask import request
 from app import api
-from controllers.movie import *
+from controllers.movie import get_movie_list, get_movie_details, add_movie
 
 
 filter_parser = reqparse.RequestParser()
+filter_parser.add_argument('catalogue', type=bool)
+filter_parser.add_argument('count', type=int)
 filter_parser.add_argument('genre')
-filter_parser.add_argument('count')
+filter_parser.add_argument('year', type=int)
+
 
 class MovieList(Resource):
     def get(self):

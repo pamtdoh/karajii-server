@@ -1,7 +1,5 @@
 from app import db
-from models.user import User
-from models.movie import Movie
-from models.review import Review
+from models import User, Movie, Review
 from flask import jsonify
 
 

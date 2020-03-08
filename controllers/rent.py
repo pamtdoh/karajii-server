@@ -1,7 +1,5 @@
 from app import db
-from models.user import User
-from models.rent import RentOrder, RentItem
-from models.movie import Movie
+from models import User, RentOrder, RentItem, Movie
 from flask import jsonify
 from datetime import datetime
 

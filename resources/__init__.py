@@ -1,2 +1,2 @@
-import resources.movie
-import resources.user
+from .movie import Movie, MovieList
+from .user import User, UserHistory, UserOrder, UserOrders

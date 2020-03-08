@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required, current_identity
 from flask import request
 from app import db, api
-from controllers.user import *
+from controllers.user import get_user_details, create_user
 from controllers.rent import get_user_history, get_user_orders, create_order
 
 

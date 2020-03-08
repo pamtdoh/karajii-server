@@ -1,5 +1,5 @@
 from app import db
-from models.movie import Movie, MovieGenre
+from models import Movie, MovieGenre
 from flask import jsonify
 
 
@@ -21,16 +21,28 @@ def delete_movie(movie_name):
     return n
 
 
-def get_movie_list(count=20, genre=None):
-    if genre is None:
-        res = Movie.query.limit(count).all()
-    else:
-        res = MovieGenre.query.filter_by(genre=genre).limit(count).all()
-        res = [genre.movie for genre in res]
+def get_movie_list(catalogue=False, count=None, genre=None, year=None):
+    query = Movie.query
+    if year is not None:
+        query = query.filter_by(year=year)
+    if genre is not None:
+        query = query.filter(Movie.genres.any(MovieGenre.genre == genre))
+    if count is not None:
+        query = query.limit(count)
+    res = query.all()
     
-    return jsonify({
-        'movies': [movie.movie_name for movie in res]
-    })
+    if catalogue:
+        return jsonify({
+            'movies': [{
+                'movie_name': movie.movie_name,
+                'title': movie.title,
+                'cover_image': movie.cover_image
+            } for movie in res]
+        })
+    else:
+        return jsonify({
+            'movies': [movie.movie_name for movie in res]
+        })
 
 
 def get_movie_details(movie_name):
@@ -42,7 +54,7 @@ def get_movie_details(movie_name):
         'movie_name': res.movie_name,
         'title': res.title,
         'cover_image': res.cover_image,
-        'genre': [genre.genre for genre in res.genres],
+        'genres': [genre.genre for genre in res.genres],
         'summary': res.summary,
         'duration': res.duration,
         'price': res.price,
